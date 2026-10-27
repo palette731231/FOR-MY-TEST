@@ -5,8 +5,6 @@
     <!-- 確保手機與平板能正確依照螢幕寬度縮放 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>集雅社 空調品牌智慧選購 SO SMART !</title>
-    <!-- 載入純前端高畫質截圖元件 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #0b1329 0%, #111c38 50%, #070d1a 100%);
@@ -234,29 +232,19 @@
             color: #ffffff;
         }
 
-        .btn-share {
-            background: linear-gradient(135deg, #059669, #10b981);
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-share:hover {
-            background: linear-gradient(135deg, #047857, #059669);
-        }
-
         /* 推薦結果卡片 */
         .result-card {
             border: 1px solid #334155;
             border-radius: 14px;
             padding: 20px;
             margin-bottom: 18px;
-            background: rgba(30, 41, 59, 0.8);
+            background: rgba(30, 41, 59, 0.85);
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
         }
 
         .result-card.top1 {
             border: 2px solid var(--accent-gold);
-            background: rgba(245, 158, 11, 0.08);
+            background: rgba(245, 158, 11, 0.1);
             box-shadow: 0 6px 20px rgba(245, 158, 11, 0.2);
         }
 
@@ -319,7 +307,6 @@
             font-weight: bold;
         }
 
-        /* 響應式表格滑動區塊 */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -351,7 +338,6 @@
             white-space: nowrap;
         }
 
-        /* 最下方固定浮動版權標記 */
         .footer-copyright {
             position: fixed;
             bottom: 0;
@@ -370,7 +356,6 @@
             font-weight: 500;
         }
 
-        /* 手機與平板專用媒體查詢 */
         @media (max-width: 600px) {
             body {
                 padding: 10px 6px 56px 6px;
@@ -433,15 +418,15 @@
 
 <div class="container">
     <div class="header">
-        <h1>集雅社 空調品牌智慧選購 SO SMART !</h1>
-        <p>回答5個問題，推薦您最適合的空調品牌與型號，加碼回饋"心理性格畫像"</p>
+        <h1>集雅社 空調品牌選購 SO SMART !</h1>
+        <p>回答5個問題，推薦您最適合的空調品牌系列，加碼贈送"心理性格畫像"</p>
     </div>
 
     <div class="progress-bar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <!-- Step 1 (問答期間不出現任何空調品牌名稱) -->
+    <!-- Step 1 -->
     <div class="step active" id="step1">
         <div class="question-title">1. 您的預算與定位偏好？</div>
         <div class="options-grid">
@@ -563,8 +548,8 @@
             </div>
             <div class="option-card" onclick="toggleMulti('q4', 'long_throw', this)">
                 <div class="option-text">
-                    <h4>🛋️ 大客廳 / 長型空間 / MIT在地製造</h4>
-                    <p>需要強勁噴射氣流與超遠吹風距離速冷，或支持正宗 MIT 研發製造</p>
+                    <h4>🛋️ 大客廳 / 長型空間</h4>
+                    <p>需要強勁噴射氣流與超遠吹風距離速冷</p>
                 </div>
                 <div class="checkbox-circle"></div>
             </div>
@@ -604,14 +589,13 @@
     <div class="step" id="resultStep">
         <div class="question-title" style="text-align: center; margin-bottom: 12px;">🎯 專屬你的空調品牌與心理性格側寫</div>
         
-        <!-- 一鍵分享工具列 -->
+        <!-- 一鍵複製分享結果按鈕 -->
         <div style="display: flex; gap: 8px; margin-bottom: 18px; justify-content: center; flex-wrap: wrap;">
-            <button class="btn btn-share" onclick="shareResultImage()">📲 一鍵分享結果 (LINE / FB)</button>
-            <button class="btn btn-primary" onclick="copyResultText()">📋 複製測驗文字</button>
+            <button class="btn btn-primary" onclick="copyResultText()">📋 一鍵複製分享結果</button>
         </div>
 
-        <!-- 截圖捕獲區塊 -->
-        <div id="resultsCaptureArea" style="padding: 10px; background: #0b1329; border-radius: 14px;">
+        <!-- 推薦內容展示區 -->
+        <div id="resultsCaptureArea" style="padding: 12px; background: #0b1329; border-radius: 14px;">
             <div id="resultsContainer"></div>
         </div>
 
@@ -641,7 +625,6 @@
     </div>
 </div>
 
-<!-- 最下方固定浮動版權標記 -->
 <div class="footer-copyright">
     © 2026 GS AC Assessment. Maintained by Vic Chen
 </div>
@@ -655,16 +638,15 @@
         q5: 'heat_cool'
     };
 
-    let latestTopBrandKey = '';
+    let latestTopBrandKeys = [];
 
-    // 各品牌推薦資料
     const brandData = {
         daikin: {
             name: "大金 (Daikin)",
             models: "橫綱Y/Z系列",
             desc: "日系頂級舒適標桿，主打溫濕雙控與康達不直吹氣流。",
             psych: "【💡 心理性格畫像】選擇大金的你，性格溫和且注重生活的極致質感與感官細節。你厭惡突兀與失控，極度享受不被干擾的平穩生活節奏。在人際關係中，你常扮演潤滑劑的角色，注重氣氛的和諧與自然貼心的溫度。你相信一分錢一分貨，對生活品質從不妥協，追求低調奢華的寧靜美學。",
-            features: ["航太康達效應氣流（不直吹人）", "閃流放電空氣清淨與防黴運轉", "智慧溫濕雙控科技"],
+            features: ["航太康達效應氣流（不直吹）", "閃流放電空氣清淨與防黴運轉", "智慧溫濕雙控科技"],
             tags: ["premium", "high", "auto_wash", "quiet", "allergy"],
             clean: "閃流放電 + 防黴運轉",
             tech: "康達氣流 + 閃流放電"
@@ -681,7 +663,7 @@
         },
         panasonic: {
             name: "國際牌 (Panasonic)",
-            models: "尊榮/頂級系列",
+            models: "UX/VX系列",
             desc: "全台超省電王者，nanoe™ X 48兆雙重主動淨化抑菌。",
             psych: "【💡 心理性格畫像】選擇國際牌的你，是個兼具理性算計與感性關懷的生活達人。你非常會過日子，精打細算每一分成本，同時又無微不至地照顧家人的健康與舒適。你擁有強大的平衡感，能在實用性與高品質之間找到最佳黃金交叉點。對你來說，真正的幸福不是高調炫耀，而是日常生活裡細水長流的安心感。",
             features: ["nanoe™ X 48兆氫氧離子強效抑菌除臭", "超越國家 1 級 CSPF 頂級省電", "內建 Wi-Fi 智慧控制與 24hr 主動防黴"],
@@ -808,13 +790,12 @@
         }
 
         const sorted = Object.keys(scores).sort((a,b) => scores[b] - scores[a]);
-        const topBrands = sorted.slice(0, 3);
-        latestTopBrandKey = topBrands;
+        latestTopBrandKeys = sorted.slice(0, 3);
 
         const container = document.getElementById('resultsContainer');
         container.innerHTML = '';
 
-        topBrands.forEach((key, idx) => {
+        latestTopBrandKeys.forEach((key, idx) => {
             const b = brandData[key];
             const isTop = idx === 0;
             const card = document.createElement('div');
@@ -841,7 +822,7 @@
 
         const tbody = document.getElementById('comparisonBody');
         tbody.innerHTML = '';
-        topBrands.forEach(key => {
+        latestTopBrandKeys.forEach(key => {
             const b = brandData[key];
             const tr = document.createElement('tr');
             tr.innerHTML = 
@@ -853,79 +834,55 @@
         });
     }
 
-    /* 原生 Web Share API 一鍵分享結果圖片與文字至 LINE / FB */
-    async function shareResultImage() {
-        const captureArea = document.getElementById('resultsCaptureArea');
-        if (typeof html2canvas === 'undefined') {
-            alert('截圖元件載入中，請稍候重試！');
+    /* 一鍵複製分享結果 (只保留主推商品，移除 #2 與 #3) */
+    function copyResultText() {
+        if (!latestTopBrandKeys || !latestTopBrandKeys.length) {
+            alert('請先進行測驗以產生推薦結果！');
             return;
         }
 
-        try {
-            const canvas = await html2canvas(captureArea, {
-                backgroundColor: '#0b1329',
-                scale: 2,
-                useCORS: true
+        const topB = brandData[latestTopBrandKeys[0]];
+
+        let text = "❄️【集雅社 空調品牌智慧選購測驗結果】\n\n" +
+                   "⭐ 首選推薦：" + topB.name + "\n" +
+                   "   建議系列：" + topB.models + "\n\n" +
+                   topB.psych + "\n\n" +
+                   "👉 歡迎來集雅社測測看最適合您的空調品牌！https://palette731231.github.io/GSEVEN-AC-TEST/";
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('✅ 已成功複製測驗結果文字！可以貼上分享給 LINE 或 FB 朋友囉！');
+            }).catch(() => {
+                fallbackCopyText(text);
             });
-
-            canvas.toBlob(async (blob) => {
-                if (!blob) {
-                    downloadCanvasAsFallback(canvas);
-                    return;
-                }
-                const file = new File([blob], 'my_aircon_result.png', { type: 'image/png' });
-
-                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-                    try {
-                        await navigator.share({
-                            title: '我的專屬空調選購與心理性格測驗結果',
-                            text: '測測看最適合你的空調品牌與心理性格畫像！',
-                            files: [file]
-                        });
-                    } catch (err) {
-                        if (err.name !== 'AbortError') {
-                            downloadCanvasAsFallback(canvas);
-                        }
-                    }
-                } else {
-                    downloadCanvasAsFallback(canvas);
-                    alert('已為您下載成果圖片！您可以在 LINE、FB、IG 等平台直接選擇這張照片發送分享囉！');
-                }
-            }, 'image/png');
-        } catch (e) {
-            alert('產生分享圖片時發生錯誤，請直接螢幕截圖分享！');
+        } else {
+            fallbackCopyText(text);
         }
     }
 
-    function downloadCanvasAsFallback(canvas) {
-        const link = document.createElement('a');
-        link.download = '我的專屬空調測驗結果.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-    }
+    function fallbackCopyText(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        textarea.style.top = '-9999px';
+        textarea.setAttribute('readonly', '');
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        
+        let successful = false;
+        try {
+            successful = document.execCommand('copy');
+        } catch (err) {
+            successful = false;
+        }
+        document.body.removeChild(textarea);
 
-    /* 一鍵複製文字結果 */
-    function copyResultText() {
-        if (!latestTopBrandKey || !brandData[latestTopBrandKey]) return;
-        const b = brandData[latestTopBrandKey];
-        const text = "❄️【我的專屬空調選購測驗結果】\n" +
-                     "首選品牌：" + b.name + "\n" +
-                     "建議系列：" + b.models + "\n\n" +
-                     b.psych + "\n\n" +
-                     "👉 歡迎測測看最適合你的空調品牌！";
-
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('✅ 已成功複製測驗結果文字！可以貼上分享給朋友囉！');
-            });
+        if (successful) {
+            alert('✅ 已成功複製測驗結果文字！可以貼上分享給 LINE 或 FB 朋友囉！');
         } else {
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            alert('✅ 已成功複製測驗結果文字！');
+            alert('複製失敗，請嘗試手動選取畫面的推薦文字進行複製。');
         }
     }
 
